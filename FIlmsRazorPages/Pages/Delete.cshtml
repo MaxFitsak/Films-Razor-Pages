@@ -1,0 +1,59 @@
+@page "{id:int?}"
+@model FilmMVC.Pages.DeleteModel
+@{
+    ViewData["Title"] = "Видалити фільм";
+    
+    string imageFolder = "~/Photos/";
+    string defaultPoster = "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=700&auto=format&fit=crop&q=80";
+    
+    string posterPath = !string.IsNullOrEmpty(Model.Film.Photo)
+        ? Url.Content($"{imageFolder}{Model.Film.Photo}")
+        : defaultPoster;
+}
+
+<h2 class="text-secondary mb-4">Видалити фільм</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                <div class="alert alert-warning border-0 mb-4">
+                    <strong>Увага!</strong> Ви впевнені, що хочете видалити цей фільм? Цю дію не можна буде скасувати.
+                </div>
+
+                <dl class="row mb-4">
+                    <dt class="col-sm-4 text-muted">Назва:</dt>
+                    <dd class="col-sm-8 fw-bold">@Model.Film.FilmName</dd>
+
+                    <dt class="col-sm-4 text-muted">Жанр:</dt>
+                    <dd class="col-sm-8">@Model.Film.Genre</dd>
+
+                    <dt class="col-sm-4 text-muted">Опис:</dt>
+                    <dd class="col-sm-8">@Model.Film.Description</dd>
+
+                    <dt class="col-sm-4 text-muted">Рейтинг:</dt>
+                    <dd class="col-sm-8">
+                        <span class="badge bg-warning text-dark">★ @Model.Film.Rating</span>
+                    </dd>
+                    
+                    <dt class="col-sm-4 text-muted">Фото:</dt>
+                    <dd class="col-sm-8">
+                        <img src="@posterPath" 
+                             alt="@Model.Film.FilmName" 
+                             class="img-thumbnail" 
+                             style="max-height: 200px; width: auto; object-fit: cover;" />
+                    </dd>
+                </dl>
+                
+                <form method="post">
+                    <input type="hidden" asp-for="Film.Id" />
+
+                    <div class="d-flex justify-content-between">
+                        <a asp-page="/Index" class="btn btn-light border">Скасувати</a>
+                        <input type="submit" value="Видалити" class="btn btn-danger px-4" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
